@@ -6,15 +6,19 @@ const BulletItem = (props) => {
 
   if (item.get('selected')) {
     return (
-      <BulletInput
-        item={item}
-        onItemUpdated={(value) => props.onItemUpdated(item, value)} />
+      <div key={item.id}>
+        <BulletInput
+          item={item}
+          onItemBlur={props.onItemBlur}
+          onItemUpdated={props.onItemUpdated} />
+      </div>
     );
   } else {
     return (
-      <a onClick={() => props.onItemClicked(item)}>
-      {item.get('content')}
-      </a>
+      <div key={item.id}
+        onClick={() => props.onItemClicked(item)}>
+        {item.get('content')}
+      </div>
     );
   }
 };

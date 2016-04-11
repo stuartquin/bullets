@@ -2,15 +2,14 @@ import React from 'react';
 
 const BulletInput = (props) => {
   return (
-    <div
-      contentEditable={true}
-      onKeyPress={(event) => {
-        if (event.which === 13) {
-          props.onItemUpdated(event.target.innerText);
-        }
-      }}>
-      {props.item.get('content')}
-    </div>
+    <input
+      value={props.item.get('content')}
+      onBlur={(event) => {
+        props.onItemBlur(props.item);
+      }}
+      onChange={(event) => {
+        props.onItemUpdated(props.item, event.target.value);
+      }} />
   );
 };
 

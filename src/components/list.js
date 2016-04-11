@@ -16,16 +16,16 @@ class List extends React.Component {
     }
 
     return (
-      <ul>
+      <div>
         {items.map(item =>(
-          <li key={item.get('id')}>
-            <BulletItem
-              onItemUpdated={this.props.onItemUpdated}
-              onItemClicked={this.props.onItemClicked}
-              item={item}/>
-          </li>
+          <BulletItem
+            key={item.id}
+            onItemUpdated={this.props.onItemUpdated}
+            onItemClicked={this.props.onItemClicked}
+            onItemBlur={this.props.onItemBlur}
+            item={item}/>
         ))}
-      </ul>
+      </div>
     );
   }
 }
@@ -42,14 +42,21 @@ const mapDispatchToProps = (dispatch, props) => {
       dispatch({
         item,
         value,
-        type: 'UPDATED'
+        type: 'UPDATE_ITEM'
       });
     },
 
     onItemClicked: (item) => {
       dispatch({
         item,
-        type: 'CLICK'
+        type: 'SELECT_ITEM'
+      });
+    },
+
+    onItemBlur: (item) => {
+      dispatch({
+        item,
+        type: 'DESELECT_ITEM'
       });
     }
   }
