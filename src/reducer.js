@@ -1,5 +1,13 @@
 import {List, Map} from 'immutable';
 
+const getNextEmptyItem = (items) => {
+  return Map({
+    id: items.map(item => item.get('id')).max() + 1,
+    content: '',
+    selected: true
+  });
+};
+
 const clickItem = (state, action) => {
   const items = state.get('items');
   const index = items.findIndex(item => item.get('id') === action.item.get('id'));
@@ -16,6 +24,19 @@ const updateItem = (state, action) => {
   });
 
   return newState;
+};
+
+const updateNewItem = (state, action) => {
+  return state.updateIn(['newItem'], (x) => x.set('content', action.value));
+};
+
+const createItem = (state, action) => {
+  const items = state.get('items');
+
+  return state.merge({
+      newItem: getNextEmptyItem(items),
+      items: items.push(action.item.set('selected', false))
+  });
 };
 
 const deselectItem = (state, action) => {
@@ -38,19 +59,21 @@ const deselectItem = (state, action) => {
  */
 
 const setState = (state, action) => {
+  const items = List([
+    Map({
+      id: 0,
+      content: 'Hello World',
+      selected: false
+    }),
+    Map({
+      id: 1,
+      content: 'Goodby Moon',
+      selected: false
+    })
+  ]);
   return Map({
-    items: List([
-      Map({
-        id: 0,
-        content: 'Hello World',
-        selected: false
-      }),
-      Map({
-        id: 1,
-        content: 'Goodby Moon',
-        selected: false
-      })
-    ])
+    newItem: getNextEmptyItem(items),
+    items
   });
 };
 
@@ -64,10 +87,13 @@ export default function(state, action) {
         return deselectItem(state, action);
     case 'UPDATE_ITEM':
         return updateItem(state, action);
+    case 'UPDATE_NEW_ITEM':
+        return updateNewItem(state, action);
     case 'SET_STATE':
         return setState(state, action);
+    case 'CREATE_ITEM':
+        return createItem(state, action);
   }
-
-  return {
-  }
+  console.error("Undefined action: ", action);
+  return state;
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {BulletItem} from './bullet-item';
 import {BulletInput} from './bullet-input';
+import {BulletInputNew} from './bullet-input-new';
 
 class List extends React.Component {
   constructor(props) {
@@ -9,11 +10,6 @@ class List extends React.Component {
   }
   render() {
     const items = this.props.items;
-
-    const newItem = {
-      content: '',
-      id: null
-    }
 
     return (
       <div>
@@ -25,19 +21,43 @@ class List extends React.Component {
             onItemBlur={this.props.onItemBlur}
             item={item}/>
         ))}
+        <div key={this.props.newItem.id}>
+          <BulletInput
+            item={this.props.newItem}
+            onItemBlur={this.props.onNewItemBlur}
+            onItemUpdated={this.props.onNewItemUpdated}
+          />
+        </div>
       </div>
+
     );
   }
 }
 
 const mapStateToProps = (state, props) => {
   return {
+    newItem: state.get('newItem'),
     items: state.get('items')
   };
 };
 
 const mapDispatchToProps = (dispatch, props) => {
   return {
+    onNewItemUpdated: (item, value) => {
+      dispatch({
+        item,
+        value,
+        type: 'UPDATE_NEW_ITEM'
+      });
+    },
+
+    onNewItemBlur: (item) => {
+      dispatch({
+        item,
+        type: 'CREATE_ITEM'
+      });
+    },
+
     onItemUpdated: (item, value) => {
       dispatch({
         item,
