@@ -48,6 +48,16 @@ const deselectItem = (state, action) => {
   });
 };
 
+const insertAfter = (state, action) => {
+  const items = state.get('items');
+  const index = items.findIndex(item => item.get('id') === action.item.get('id'));
+  const newState = deselectItem(state, action)
+
+  return newState.merge({
+    items: items.insert(index + 1, getNextEmptyItem(items))
+  });
+};
+
 /*
  *  item = {
  *    id: ...
@@ -93,6 +103,8 @@ export default function(state, action) {
         return setState(state, action);
     case 'CREATE_ITEM':
         return createItem(state, action);
+    case 'INSERT_AFTER':
+        return insertAfter(state, action);
   }
   console.error("Undefined action: ", action);
   return state;

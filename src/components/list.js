@@ -4,6 +4,11 @@ import {BulletItem} from './bullet-item';
 import {BulletInput} from './bullet-input';
 import {BulletInputNew} from './bullet-input-new';
 
+
+const style = {
+  fontFamily: 'Verdana, Geneva, sans-serif'
+};
+
 class List extends React.Component {
   constructor(props) {
     super(props);
@@ -12,22 +17,16 @@ class List extends React.Component {
     const items = this.props.items;
 
     return (
-      <div>
+      <div style={style}>
         {items.map(item =>(
           <BulletItem
-            key={item.id}
+            key={item.get('id')}
             onItemUpdated={this.props.onItemUpdated}
             onItemClicked={this.props.onItemClicked}
             onItemBlur={this.props.onItemBlur}
+            onSpecialKey={this.props.onSpecialKey}
             item={item}/>
         ))}
-        <div key={this.props.newItem.id}>
-          <BulletInput
-            item={this.props.newItem}
-            onItemBlur={this.props.onNewItemBlur}
-            onItemUpdated={this.props.onNewItemUpdated}
-          />
-        </div>
       </div>
 
     );
@@ -77,6 +76,13 @@ const mapDispatchToProps = (dispatch, props) => {
       dispatch({
         item,
         type: 'DESELECT_ITEM'
+      });
+    },
+
+    onSpecialKey: (item) => {
+      dispatch({
+        item,
+        type: 'INSERT_AFTER'
       });
     }
   }
