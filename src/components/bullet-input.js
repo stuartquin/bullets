@@ -22,9 +22,9 @@ const BulletInput = (props) => {
       onBlur={(event) => {
          props.onItemBlur(props.item);
       }}
-      onKeyPress={(event) => {
-        if (event.charCode === 13) {
-          props.onSpecialKey(props.item, event.charCode);
+      onKeyUp={(event) => {
+        if (event.keyCode === 13 || event.keyCode === 8) {
+          props.onSpecialKey(props.item, event.keyCode);
         }
       }}
       onChange={(event) => {

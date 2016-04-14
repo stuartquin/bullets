@@ -33,6 +33,15 @@ class List extends React.Component {
   }
 }
 
+const getSpecialKeyType = (item, keyCode) => {
+  if (keyCode === 13) {
+    return 'INSERT_AFTER';
+  }
+  if (keyCode === 8 && item.get('content').length === 0) {
+    return 'REMOVE_ITEM';
+  }
+};
+
 const mapStateToProps = (state, props) => {
   return {
     items: state.get('items')
@@ -63,11 +72,11 @@ const mapDispatchToProps = (dispatch, props) => {
       });
     },
 
-    onSpecialKey: (item) => {
-      dispatch({
-        item,
-        type: 'INSERT_AFTER'
-      });
+    onSpecialKey: (item, keyCode) => {
+      const type = getSpecialKeyType(item, keyCode)
+      if (type) {
+        dispatch({item, type});
+      }
     }
   }
 };

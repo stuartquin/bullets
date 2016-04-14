@@ -35,6 +35,19 @@ const deselectItem = (state, action) => {
   });
 };
 
+const removeItem = (state, action) => {
+  const items = state.get('items');
+  const index = items.findIndex(item => item.get('id') === action.item.get('id'));
+
+  if (index === items.count() - 1) {
+    return state;
+  }
+
+  return state.merge({
+    items: items.delete(index)
+  });
+};
+
 const insertAfter = (state, action) => {
   const items = state.get('items');
   const index = items.findIndex(item => item.get('id') === action.item.get('id'));
@@ -63,8 +76,6 @@ const setState = (state, action) => {
   });
 };
 
-
-
 export default function(state, action) {
   switch(action.type) {
     case 'SELECT_ITEM':
@@ -77,6 +88,8 @@ export default function(state, action) {
         return setState(state, action);
     case 'INSERT_AFTER':
         return insertAfter(state, action);
+    case 'REMOVE_ITEM':
+        return removeItem(state, action);
   }
   console.error("Undefined action: ", action);
   return state;
