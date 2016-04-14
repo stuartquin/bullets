@@ -26,19 +26,6 @@ const updateItem = (state, action) => {
   return newState;
 };
 
-const updateNewItem = (state, action) => {
-  return state.updateIn(['newItem'], (x) => x.set('content', action.value));
-};
-
-const createItem = (state, action) => {
-  const items = state.get('items');
-
-  return state.merge({
-      newItem: getNextEmptyItem(items),
-      items: items.push(action.item.set('selected', false))
-  });
-};
-
 const deselectItem = (state, action) => {
   const items = state.get('items');
   const index = items.findIndex(item => item.get('id') === action.item.get('id'));
@@ -58,16 +45,6 @@ const insertAfter = (state, action) => {
   });
 };
 
-/*
- *  item = {
- *    id: ...
- *    state: ...
- *    content: ...
- *    indent: ...
- *    type: ...
- *  }
- */
-
 const setState = (state, action) => {
   const items = List([
     Map({
@@ -82,7 +59,6 @@ const setState = (state, action) => {
     })
   ]);
   return Map({
-    newItem: getNextEmptyItem(items),
     items
   });
 };
@@ -97,12 +73,8 @@ export default function(state, action) {
         return deselectItem(state, action);
     case 'UPDATE_ITEM':
         return updateItem(state, action);
-    case 'UPDATE_NEW_ITEM':
-        return updateNewItem(state, action);
     case 'SET_STATE':
         return setState(state, action);
-    case 'CREATE_ITEM':
-        return createItem(state, action);
     case 'INSERT_AFTER':
         return insertAfter(state, action);
   }

@@ -35,28 +35,12 @@ class List extends React.Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    newItem: state.get('newItem'),
     items: state.get('items')
   };
 };
 
 const mapDispatchToProps = (dispatch, props) => {
   return {
-    onNewItemUpdated: (item, value) => {
-      dispatch({
-        item,
-        value,
-        type: 'UPDATE_NEW_ITEM'
-      });
-    },
-
-    onNewItemBlur: (item) => {
-      dispatch({
-        item,
-        type: 'CREATE_ITEM'
-      });
-    },
-
     onItemUpdated: (item, value) => {
       dispatch({
         item,
