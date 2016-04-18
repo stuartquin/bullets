@@ -1,0 +1,13 @@
+.bullet-input {
+    min-height: 30px;
+    width: 100%;
+    background-color: #f8f5ec;
+    font-family: 'Verdana, Geneva, sans-serif';
+    font-size: 16px;
+    border: 'none';
+    padding: 4px;
+
+    &:focus {
+        border: none;
+    }
+}

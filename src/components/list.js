@@ -2,8 +2,6 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {BulletItem} from './bullet-item';
 import {BulletInput} from './bullet-input';
-import {BulletInputNew} from './bullet-input-new';
-
 
 const style = {
   fontFamily: 'Verdana, Geneva, sans-serif'
